@@ -26,4 +26,4 @@ tasks = [[rng.nextInt(1, 29), rng.nextInt(1, 29), rng.nextInt(1, 29), rng.nextIn
 print(tasks)
 
 cmax = brute_force_cmax(tasks, machines)
-print(cmax)  # oczekiwany wynik: 12
+print(cmax) 

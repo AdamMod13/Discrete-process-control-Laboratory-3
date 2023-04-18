@@ -1,7 +1,6 @@
 from RandomNumberGenerator import RandomNumberGenerator
 import random
 
-
 rng = RandomNumberGenerator(1)
 
 def calculate(pi, times):
@@ -9,30 +8,35 @@ def calculate(pi, times):
 
 n = 5 
 J = list(range(n))
-times = [[random.randint(1, 10) for _ in range(n)] for _ in range(n)]  # Czasy wykonania operacji
+times = [[rng.nextInt(1, 29) for _ in range(n)] for _ in range(n)]  # Czasy wykonania operacji
+
+print("Times:", times)
 
 UB = float('inf')
 init_pi = []
 result_pi = []
 
-def BnB(j_star, N, pi, UB):
+def BnB(j_star, N, pi):
     pi.append(j_star)
     N.remove(j_star)
 
-    if N:
-        LB = calculate(pi, times)
-        if LB < UB:
-            for j in N:
-                BnB(j, N.copy(), pi.copy(), UB)
-    else:
+    global UB
+
+    if not N:
+        global Cmax 
         Cmax = calculate(pi, times)  
         if Cmax < UB:
             UB = Cmax
             result_pi.clear()
             result_pi.extend(pi)
+    else:
+        LB = calculate(pi, times)
+        if LB < UB:
+            for j in N:
+                BnB(j, N.copy(), pi.copy())
 
 for j in J:
-    BnB(j, J.copy(), init_pi.copy(), UB)
+    BnB(j, J.copy(), init_pi.copy())
 
-print("Cmax:", UB)
-print("Permutacja:", result_pi)
+print("Optimal Cmax:", Cmax)
+print("Optimal permutation:", result_pi)
